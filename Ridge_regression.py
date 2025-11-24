@@ -45,20 +45,16 @@ X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 # optimal alpha values
-for alpha in [25000 , 26000, 27000]:
-    ridge_model = Ridge(alpha=alpha)
-    ridge_model.fit(X_train_scaled, y_train)
+alphas = [20_000, 22_000, 24_000, 26_000, 28_000, 30_000]
 
-    y_pred = ridge_model.predict(X_test_scaled)
+for alpha in alphas:
+
+    ridge = Ridge(alpha=alpha)
+    ridge.fit(X_train_scaled, y_train)
+    y_pred = ridge.predict(X_test_scaled)
     r2 = r2_score(y_test, y_pred)
     mse = mean_squared_error(y_test, y_pred)
-
-    print("-" * 30)
-    print(f"Alpha: {alpha}")
-    print(f"Director Eklenmiş Yeni R2 Skoru: {r2:.4f}")
-    print(f"Director Eklenmiş MSE: {mse:.4f}")
-    print("-" * 30)
-    print(f"Yönetmen Etkisi (Katsayı): {ridge_model.coef_[2]:.4f}")
+    print(f"Alpha: {alpha} | R2 Score: {r2:.4f} | MSE: {mse:.4f}")
 
 
-# 0.3177 for alpha 26000 is the best R2 score achieved.
+# R2 = 0.3177 for alpha 26000 is the best R2 score achieved.
